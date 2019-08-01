@@ -23,10 +23,10 @@ public interface WorkloadStorage {
 	 * @param time the time
 	 * @return utilization percentage
 	 */
-	double getSize(double time, int fileSize);
+	double getSize(double time, long fileSize);
 	
-	int  getNumber(double time, int fileSize);
+	int  getNumber(double time, long fileSize);
 	
-	int getTotalNumber(int fileSize);
+	int getTotalNumber(long fileSize);
 
 }
