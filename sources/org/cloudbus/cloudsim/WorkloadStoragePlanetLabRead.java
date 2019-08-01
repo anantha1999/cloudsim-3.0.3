@@ -112,7 +112,7 @@ public class WorkloadStoragePlanetLabRead implements WorkloadStorage {
 	 * @see cloudsim.power.UtilizationModel#getUtilization(double)
 	 */
 	@Override
-	public double getSize(double time, int fileSize)  // size read at a given time.
+	public double getSize(double time, long fileSize)  // size read at a given time.
 	{	
 		if(fileSize>0) {
 		if (time % getSchedulingInterval() == 0) {
@@ -143,7 +143,7 @@ public class WorkloadStoragePlanetLabRead implements WorkloadStorage {
 	}
 	
 	
-	public int  getNumber(double time, int fileSize) {
+	public int  getNumber(double time, long fileSize) {
 		if (fileSize < 0 ) {	
 			return 0;
 		}
@@ -156,7 +156,7 @@ public class WorkloadStoragePlanetLabRead implements WorkloadStorage {
 	}
 	
 	//Gets total number of writes .  SizePerWrite can be made as a constant value for a particular storage type.
-	public int getTotalNumber(int fileSize ) {
+	public int getTotalNumber(long fileSize ) {
 		double size=0;
 		double now = 0; //initial value of total number of reads
 		for(int i=0; i<data.length;i++) {
