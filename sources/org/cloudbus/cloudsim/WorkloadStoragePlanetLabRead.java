@@ -118,14 +118,12 @@ public class WorkloadStoragePlanetLabRead implements WorkloadStorage {
 	{	
 		if(fileSize>0) {
 			if (time % getSchedulingInterval() == 0) {
-		
-			if(data[(int) time / (int) getSchedulingInterval()]*speed[(int) time / (int) getSchedulingInterval()]<fileSize)
-			{
+			if(data[(int) time / (int) getSchedulingInterval()]*speed[(int) time / (int) getSchedulingInterval()]<fileSize) {
 				return data[(int) time / (int) getSchedulingInterval()]*speed[(int) time / (int) getSchedulingInterval()];
 			}
 			else {
 				return fileSize;
-			     }
+				 }
 													  }
 		
 		int time1 = (int) Math.floor(time / getSchedulingInterval());
