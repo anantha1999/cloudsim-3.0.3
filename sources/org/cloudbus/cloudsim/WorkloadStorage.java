@@ -18,14 +18,31 @@ package org.cloudbus.cloudsim;
 public interface WorkloadStorage {
 
 	/**
-	 * Returns utilization in percents according to the time.
+	 * Returns the size of the file getting read or written at that particular time
 	 * 
 	 * @param time the time
-	 * @return utilization percentage
+	 * @param fileSize Total size of the file
+	 * @return Sizeread/Sizewritten
 	 */
 	double getSize(double time, long fileSize);
 	
+	/**
+	 * Returns the number of reads or writes at that particular interval
+	 * 
+	 * @param time the time
+	 * @param fileSize Total size of the file
+	 * @return numberOfReads/numberOfWrites
+	 */
+	
 	int  getNumber(double time, long fileSize);
+	
+	/**
+	 * Returns the total number of reads or writes at that particular interval
+	 * 
+	 * @param time the time
+	 * @param fileSize Total size of the file
+	 * @return totalNumberOfReads/totalNumberOfWrites
+	 */
 	
 	int getTotalNumber(long fileSize);
 
