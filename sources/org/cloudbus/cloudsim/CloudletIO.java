@@ -9,7 +9,7 @@ import org.cloudbus.cloudsim.UtilizationModel;
 import org.cloudbus.cloudsim.WorkloadStorage;
 
 
-
+/* extended class to include I/O workload */
 
 public class CloudletIO extends Cloudlet {
 	
