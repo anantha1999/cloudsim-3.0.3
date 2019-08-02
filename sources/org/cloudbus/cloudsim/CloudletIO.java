@@ -13,8 +13,8 @@ import org.cloudbus.cloudsim.WorkloadStorage;
 
 public class CloudletIO extends Cloudlet {
 	
-	WorkloadStorage TotalNumberOfReads;
-	WorkloadStorage TotalNumberOfWrites;
+	private WorkloadStorage TotalNumberOfReads;
+	private WorkloadStorage TotalNumberOfWrites;
 	
 	
 	
@@ -31,6 +31,9 @@ public class CloudletIO extends Cloudlet {
 			final WorkloadStorage TotalNumberOfWrites) {
 		   super(cloudletId,cloudletLength,pesNumber,cloudletFileSize,cloudletOutputSize,utilizationModelCpu,
 				 utilizationModelRam,utilizationModelBw);
+		   
+		   setTotalNumberOfReads(TotalNumberOfReads);
+		   setTotalNumberOfWrites(TotalNumberOfWrites);
 	}
 	
 	public WorkloadStorage getTotalNumberOfReads() {
@@ -50,11 +53,11 @@ public class CloudletIO extends Cloudlet {
 		this.TotalNumberOfWrites = TotalNumberOfWrites;
 	}
 	
-	public double getTotalNumberOfReads(long fileSize) {
+	public int getTotalNumberOfReads(final long fileSize) {
 		return getTotalNumberOfReads().getTotalNumber(fileSize);
 	}
 	
-	public double getTotalNumberOfWrites(long fileSize) {
+	public int getTotalNumberOfWrites(final long fileSize) {
 		return getTotalNumberOfWrites().getTotalNumber(fileSize);
 	}
 	
