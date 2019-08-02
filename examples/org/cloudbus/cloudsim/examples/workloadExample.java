@@ -69,7 +69,7 @@ public class workloadExample {
 				return regex.matcher(f.getName()).matches();
 			}
 		});
-		Log.printLine("gblas" + files.length);
+		
 		boolean traceFlag = false;
 		
 		CloudSim.init(numUser, cal, traceFlag);
