@@ -1,9 +1,11 @@
 package org.cloudbus.cloudsim.examples;
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.CloudletIO;
@@ -54,12 +56,20 @@ public class workloadExample {
 		//1.0: Initialize the Cloudsim package. It should be called before creating any entities.
 		int numUser = 1;
 		Calendar cal = Calendar.getInstance();
+		final Pattern regex = Pattern.compile("146-179.+colostate.+");		
 		String inputFolder = CloudSimExample.class.getClassLoader().getResource("workload/planetlab/20110303")
 				.getPath();
 		
-		File input = new File(inputFolder);
-		File[] files = input.listFiles();
 		
+		File input = new File(inputFolder);
+		File[] files = input.listFiles(
+		new FileFilter(){
+			@Override
+			public boolean accept(File f){
+				return regex.matcher(f.getName()).matches();
+			}
+		});
+		Log.printLine("gblas" + files.length);
 		boolean traceFlag = false;
 		
 		CloudSim.init(numUser, cal, traceFlag);
@@ -78,7 +88,7 @@ public class workloadExample {
 		}
 		
 		//4.0: Create cloudlets(defines the workload)
-		List<CloudletIO> cloudletList = new ArrayList<CloudletIO>();
+		List<Cloudlet> cloudletList = new ArrayList<Cloudlet>();
 		
 		long cloudletLength = 40000;
 		int pesNumber = 1;
@@ -87,12 +97,15 @@ public class workloadExample {
 		//UtilizationModelStochastic Utilize = new UtilizationModelStochastic();
 		
 		
-		for(int cloudletId=0;cloudletId<2;cloudletId++) {
+		for(int cloudletId=0;cloudletId<files.length;cloudletId++) {
 	try {
 		CloudletIO newcloudlet = new CloudletIO(cloudletId,cloudletLength,pesNumber,cloudletFileSize,cloudletOutputSize,new UtilizationModelPlanetLabInMemory(
 				files[cloudletId].getAbsolutePath(),
 				Constants.SCHEDULING_INTERVAL), new UtilizationModelPlanetLabInMemoryRam(files[cloudletId].getAbsolutePath(), Constants.SCHEDULING_INTERVAL) , new UtilizationModelPlanetLabInMemoryBw(files[cloudletId].getAbsolutePath(), Constants.SCHEDULING_INTERVAL),new WorkloadStoragePlanetLabRead(files[cloudletId].getAbsolutePath(), Constants.SCHEDULING_INTERVAL),
 new WorkloadStoragePlanetLabWrite(files[cloudletId].getAbsolutePath(), Constants.SCHEDULING_INTERVAL));
+	Log.printLine("gblas" + files.length);
+	Log.printLine(Constants.SCHEDULING_INTERVAL);
+	Log.printLine(files[cloudletId].getAbsolutePath());
 	newcloudlet.setUserId(dcb.getId());
 	cloudletList.add(newcloudlet);
 	} catch (Exception e) {
@@ -139,11 +152,10 @@ for(double Time=c.getExecStartTime();Time<c.getFinishTime();Time=Time+1) {
 	Log.printLine();
 	Log.printLine("CPUutilization at time :"+Time+" is:"+c.getUtilizationOfCpu(Time));
 	Log.printLine("RamUtilization at time "+ Time +":" + c.getUtilizationOfRam(Time));
-	Log.printLine(" "+ Time +":" + c.getUtilizationOfRam(Time));
 	Log.printLine();
 }
-	Log.printLine("total number of reads" +c.getTotalNumberOfReads(cloudletFileSize));
-	Log.printLine("total number of writes" +c.getTotalNumberOfWrites(cloudletFileSize));
+	Log.printLine("total number of reads " +c.getTotalNumberOfReads(cloudletFileSize));
+	Log.printLine("total number of writes " +c.getTotalNumberOfWrites(cloudletFileSize));
 Log.printLine("***************************");
 
 				}
