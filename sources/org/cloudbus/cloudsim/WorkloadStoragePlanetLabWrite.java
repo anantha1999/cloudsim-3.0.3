@@ -9,13 +9,14 @@ import java.io.IOException;
  */
 public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 	
+	
 	/** The scheduling interval. */
 	private double schedulingInterval;
 
 	/** The data (5 min * 288 = 24 hours). */
 	private final double[] data; 
 	
-	private final double[] speed; //speed per write.
+	private final double[] speed; //write mbps
 	
 	private double SizeWritten = 0;
 	
@@ -34,29 +35,36 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 		speed = new double[289];
 		setSchedulingInterval(schedulingInterval);
 		BufferedReader input = new BufferedReader(new FileReader(inputPath));
-		int n = data.length;
-	
-		for (int i = 0; i < n - 1; i++) {
+		int i = 0;
+		String line;
+		while((line = input.readLine()) != null) {
 			try {
-			int length = ((input.readLine()).split(" ",-1)).length;
+			int length = line.split(" ",-1).length ;
+			
 			String[] workloadvalues = new String[length];
 			if(length <= 1) {
 				data[i] = 0;
 				speed[i] = 0;
 			}
 			else {
-			workloadvalues = (input.readLine()).split(" ",-1);
+			workloadvalues = line.split(" ",-1);
 			data[i] = Integer.valueOf(workloadvalues[3]);
 			speed[i] = Integer.valueOf(workloadvalues[5]);
+			
 			}
 			}
 			catch(Exception e) {
 				data[i]=0;
 				speed[i] = 0;
 			}
+			i++;
+			
 		}
-		data[n - 1] = data[n - 2];
-		speed[n-1] = speed[n-2];
+		
+		
+		
+		//data[i - 1] = data[i - 2];
+		//speed[i-1] = speed[i -2];
 		input.close();
 	}
 		
@@ -112,8 +120,6 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 	{	
 		if(fileSize>0) {
 		if (time % getSchedulingInterval() == 0) {
-		//	int fileSize = fileSize;
-			//file.setFileSize(fileSize -(new Double(data[(int) time / (int) getSchedulingInterval()]*percentage*fileSize )).intValue());
 			if(data[(int) time / (int) getSchedulingInterval()]*speed[(int) time / (int) getSchedulingInterval()]<fileSize) {
 				return data[(int) time / (int) getSchedulingInterval()]*speed[(int) time / (int) getSchedulingInterval()];
 			}
@@ -123,10 +129,8 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 		}
 		
 		int time1 = (int) Math.floor(time / getSchedulingInterval());
-	//	int fileSize = fileSize;
-		//file.setFileSize(fileSize -(new Double(data[time1]*percentage*fileSize )).intValue());
 		if(data[time1]*speed[time1] < fileSize) {
-			this.SizeWritten = data[time1]*speed[time1]; // gives the size read. .
+			this.SizeWritten = data[time1]*speed[time1]; // gives the size written. .
 			return SizeWritten;
 		}
 		else {
@@ -138,7 +142,8 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 		}
 	}
 	
-	//
+	@Override
+	// returns number of writes
 	public int  getNumber(double time, long fileSize) {
 		if (fileSize < 0 ) {	
 			return 0;
@@ -151,7 +156,8 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 		return numberOfWrites;
 	}
 	
-	//Gets total number of writes .  SizePerWrite can be made as a constant value for a particular storage type.
+	//Gets total number of writes 
+	@Override
 	public int getTotalNumber( long fileSize ) {
 		double size=0;
 		double now = 0; //initial value of total number of writes
