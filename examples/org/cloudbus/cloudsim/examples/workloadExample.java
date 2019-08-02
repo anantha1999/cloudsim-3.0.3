@@ -103,9 +103,6 @@ public class workloadExample {
 				files[cloudletId].getAbsolutePath(),
 				Constants.SCHEDULING_INTERVAL), new UtilizationModelPlanetLabInMemoryRam(files[cloudletId].getAbsolutePath(), Constants.SCHEDULING_INTERVAL) , new UtilizationModelPlanetLabInMemoryBw(files[cloudletId].getAbsolutePath(), Constants.SCHEDULING_INTERVAL),new WorkloadStoragePlanetLabRead(files[cloudletId].getAbsolutePath(), Constants.SCHEDULING_INTERVAL),
 new WorkloadStoragePlanetLabWrite(files[cloudletId].getAbsolutePath(), Constants.SCHEDULING_INTERVAL));
-	Log.printLine("gblas" + files.length);
-	Log.printLine(Constants.SCHEDULING_INTERVAL);
-	Log.printLine(files[cloudletId].getAbsolutePath());
 	newcloudlet.setUserId(dcb.getId());
 	cloudletList.add(newcloudlet);
 	} catch (Exception e) {
