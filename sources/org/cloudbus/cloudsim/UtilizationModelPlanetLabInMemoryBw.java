@@ -28,24 +28,20 @@ public class UtilizationModelPlanetLabInMemoryBw implements UtilizationModel {
 		data = new double[289];
 		setSchedulingInterval(schedulingInterval);
 		BufferedReader input = new BufferedReader(new FileReader(inputPath));
-		int n = 10;
-		for (int i = 0; i < n - 1; i++) {
-			try {
-				int length = ((input.readLine()).split(" ",-1)).length;
-				String[] workloadvalues = new String[length];
-				if(length <= 1) {
-					data[i] = 0;
-				}
-				else {
-				workloadvalues = (input.readLine()).split(" ",-1);
-				data[i] = Integer.valueOf(workloadvalues[2])/ 100.0;
-				}
-				}
-				catch(Exception e) {
-					data[i]=0;
-				}
+		int i = 0;
+		String line;
+		while((line = input.readLine()) != null) {
+			int length = line.split(" ",-1).length;
+			String[] workloadvalues = new String[length];
+			if(length == 1) {
+				data[i++] = 0;
 			}
-		data[n - 1] = data[n - 2];
+			else {
+			workloadvalues = line.split(" ",-1);
+			data[i++] = Integer.valueOf(workloadvalues[1])/ 100.0;
+			}
+		}
+		data[i - 1] = data[i - 2];
 		input.close();
 	}
 	
