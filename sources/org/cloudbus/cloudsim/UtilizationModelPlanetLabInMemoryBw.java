@@ -38,7 +38,7 @@ public class UtilizationModelPlanetLabInMemoryBw implements UtilizationModel {
 			}
 			else {
 			workloadvalues = line.split(" ",-1);
-			data[i++] = Integer.valueOf(workloadvalues[1])/ 100.0;
+			data[i++] = Integer.valueOf(workloadvalues[2])/ 100.0;
 			}
 		}
 		data[i - 1] = data[i - 2];
