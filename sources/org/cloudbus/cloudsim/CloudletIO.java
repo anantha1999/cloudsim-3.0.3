@@ -53,12 +53,12 @@ public class CloudletIO extends Cloudlet {
 		this.TotalNumberOfWrites = TotalNumberOfWrites;
 	}
 	
-	public int getTotalNumberOfReads(final long fileSize) {
-		return getTotalNumberOfReads().getTotalNumber(fileSize);
+	public int getTotalNumberOfreads() {
+		return getTotalNumberOfReads().getTotalNumber();
 	}
 	
-	public int getTotalNumberOfWrites(final long fileSize) {
-		return getTotalNumberOfWrites().getTotalNumber(fileSize);
+	public int getTotalNumberOfwrites() {
+		return getTotalNumberOfWrites().getTotalNumber();
 	}
 	
 }
