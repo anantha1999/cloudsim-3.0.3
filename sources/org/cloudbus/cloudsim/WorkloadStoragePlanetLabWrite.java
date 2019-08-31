@@ -16,7 +16,7 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 	/** The data (5 min * 288 = 24 hours). */
 	private final double[] data; 
 	
-	private final double[] speed; //write mbps
+	//private final double[] speed; //write mbps
 	
 	private double SizeWritten = 0;
 	
@@ -32,7 +32,7 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 			throws NumberFormatException,
 			IOException {
 		data = new double[289];
-		speed = new double[289];
+		//speed = new double[289];
 		setSchedulingInterval(schedulingInterval);
 		BufferedReader input = new BufferedReader(new FileReader(inputPath));
 		int i = 0;
@@ -44,18 +44,18 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 			String[] workloadvalues = new String[length];
 			if(length <= 1) {
 				data[i] = 0;
-				speed[i] = 0;
+				//speed[i] = 0;
 			}
 			else {
 			workloadvalues = line.split(" ",-1);
 			data[i] = Integer.valueOf(workloadvalues[3]);
-			speed[i] = Integer.valueOf(workloadvalues[5]);
+			//speed[i] = Integer.valueOf(workloadvalues[5]);
 			
 			}
 			}
 			catch(Exception e) {
 				data[i]=0;
-				speed[i] = 0;
+				//speed[i] = 0;
 			}
 			i++;
 			
@@ -82,7 +82,7 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 			throws NumberFormatException,
 			IOException {
 		setSchedulingInterval(schedulingInterval);
-		speed = new double[dataSamples];
+		//speed = new double[dataSamples];
 		data = new double[dataSamples];
 		BufferedReader input = new BufferedReader(new FileReader(inputPath));
 		int n = data.length;
@@ -93,21 +93,21 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 			String[] workloadvalues = new String[length];
 			if(length <= 1) {
 				data[i] = 0;
-				speed[i] = 0;
+				//speed[i] = 0;
 			}
 			else {
 			workloadvalues = (input.readLine()).split(" ",-1);
 			data[i] = Integer.valueOf(workloadvalues[3]);
-			speed[i] = Integer.valueOf(workloadvalues[5]);
+			//speed[i] = Integer.valueOf(workloadvalues[5]);
 			}
 			}
 			catch(Exception e) {
 				data[i]=0;
-				speed[i] = 0;
+				//speed[i] = 0;
 			}
 		}
 		data[n - 1] = data[n - 2];
-		speed[n-1] = speed[n-2];
+		//speed[n-1] = speed[n-2];
 		input.close();
 	}
 
@@ -116,7 +116,7 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 	 * @see cloudsim.power.UtilizationModel#getUtilization(double)
 	 */
 	@Override
-	public double getSize(double time, long fileSize)  // size written at a given time.
+	/*public double getSize(double time, long fileSize)  // size written at a given time.
 	{	
 		if(fileSize>0) {
 		if (time % getSchedulingInterval() == 0) {
@@ -154,10 +154,10 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 		Double NoW = new Double(data[time1]);
 		int numberOfWrites = NoW.intValue();
 		return numberOfWrites;
-	}
+	}*/
 	
 	//Gets total number of writes 
-	@Override
+	/*@Override
 	public int getTotalNumber( long fileSize ) {
 		double size=0;
 		double now = 0; //initial value of total number of writes
@@ -182,6 +182,17 @@ public class WorkloadStoragePlanetLabWrite implements WorkloadStorage {
 		int totalNumberOfWrites = tnw.intValue();
 		return totalNumberOfWrites;
 		
+	}*/
+	
+	public int getTotalNumber() {
+		int totalWrites = 0;
+		
+		for(int i=0; i<data.length;i++) {
+			Double NoW = new Double(data[i]);
+			int writeValue = NoW.intValue();
+			totalWrites = totalWrites + writeValue;
+		}
+		return totalWrites;
 	}
 
 	/**
