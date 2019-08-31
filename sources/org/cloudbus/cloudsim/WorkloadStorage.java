@@ -24,7 +24,7 @@ public interface WorkloadStorage {
 	 * @param fileSize Total size of the file
 	 * @return Sizeread/Sizewritten
 	 */
-	double getSize(double time, long fileSize);
+	//double getSize(double time, long fileSize);
 	
 	/**
 	 * Returns the number of reads or writes at that particular interval
@@ -34,7 +34,7 @@ public interface WorkloadStorage {
 	 * @return numberOfReads/numberOfWrites
 	 */
 	
-	int  getNumber(double time, long fileSize);
+	//int  getNumber(double time, long fileSize);
 	
 	/**
 	 * Returns the total number of reads or writes at that particular interval
@@ -44,6 +44,6 @@ public interface WorkloadStorage {
 	 * @return totalNumberOfReads/totalNumberOfWrites
 	 */
 	
-	int getTotalNumber(long fileSize);
+	int getTotalNumber();
 
 }
